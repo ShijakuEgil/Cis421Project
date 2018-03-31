@@ -7,20 +7,23 @@ First Page to Our Website (home page)
 */
 ?>
 <?php include("header.php");?>
-<form class="form-signin" method="post" action="validate.php">
-
-  <div class="tittle-wrapper text-success">
-      <h1 id="welcomePageTitle" class="h1 text-info text-center">University Library</h1>
-  </div>
-   <h1 class="h3 mb-3 font-weight-normal text-info text-center">Please sign in</h1>
-
-  <label for="email" class="sr-only">Email address</label>
-  <input type="email" id="email" class="form-control" name="email" placeholder="Email address" required>
-
-  <label for="password" class="sr-only">Password</label>
-  <input type="password" id="password" class="form-control" name="password" placeholder="Password" required>
-
-  <button class="btn btn-lg btn-info btn-block mt-2" type="submit" name="student">Student Sign in</button>
-  <button class="btn btn-lg btn-info btn-block my-2" type="submit" name="admin">Administrator Sign in</button>
-</form>
+<div class="login-form-wrapper container-fluid text-center">
+    <form class="form-signin" method="post" action="validate.php">
+      <i class="fas fa-book fa-9x"></i>
+      <h1 class="website-title display-3 font-weight-light">University Library</h1>
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" name="student">Student Sign in</button>
+      <button class="btn btn-lg btn-primary btn-block" type="submit"name="admin">Admnin/Worker Sign in</button>
+      <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+    </form>
+</div>
 <?php include("footer.php"); ?>
