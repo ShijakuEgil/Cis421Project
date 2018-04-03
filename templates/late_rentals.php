@@ -21,27 +21,17 @@
      </thead>
      <tbody>
 <?php // TODO: Database functions are to be called in here so the data can be inserted in the table ?>
-       <tr>
-         <th scope="row">1</th>
-         <td>Mark</td>
-         <td>Otto</td>
-         <td>Book title</td>
-         <td>1</td>
-       </tr>
-       <tr>
-         <th scope="row">2</th>
-         <td>Jacob</td>
-         <td>Thornton</td>
-         <td>Book Title</td>
-         <td>2</td>
-       </tr>
-       <tr>
-         <th scope="row">3</th>
-         <td>Larry</td>
-         <td>Who</td>
-         <td>Book Title</td>
-         <td>3</td>
-       </tr>
+<?php $late_rentals = outstanding_rentals();
+      $k = 1;
+      foreach($late_rentals as $rentals):?>
+      <tr>
+        <th scope="row"><?php echo $k; ?></th>
+        <td><?php echo $rentals['fname']; ?></td>
+        <td><?php echo $rentals['lname']; ?></td>
+        <td><?php echo $rentals['book_title']; ?></td>
+        <td><?php echo $rentals['days_late']; ?></td>
+      </tr>
+<?php $k++; endforeach;?>
      </tbody>
    </table>
  </article>

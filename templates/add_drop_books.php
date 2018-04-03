@@ -13,37 +13,37 @@
 
       <h1 class="display-3">Add a New Book</h1>
 
-      <form method="post" action="<?php //this will have the php file that will do the validation of all the info added ?>">
+      <form method="post" action="validate.php">
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="book-title-input">Book Title</label>
-            <input type="text" class="form-control" id="book-title-input" placeholder="Book Title">
+            <label for="add-book-title">Book Title</label>
+            <input type="text" class="form-control" id="add-book-title" name="add-book-title"placeholder="Book Title">
           </div>
           <div class="form-group col-md-6">
-            <label for="isbn-input">ISBN</label>
-            <input type="text" class="form-control" id="isbn-input" placeholder="ISBN">
+            <label for="add-isbn">ISBN</label>
+            <input type="text" class="form-control" id="add-isbn" name="add-isbn"placeholder="ISBN">
           </div>
           <div class="form-group col-md-6">
-            <label for="author-fname-input">Author First Name</label>
-            <input type="text" class="form-control" id="author-fname-input" placeholder="First Name">
+            <label for="add-author-fname">Author First Name</label>
+            <input type="text" class="form-control" id="add-author-fname" name="add-ath-fName" placeholder="First Name">
           </div>
           <div class="form-group col-md-6">
-            <label for="author-lname-input">Author Last Name</label>
-            <input type="text" class="form-control" id="author-lname-input" placeholder="Last Name">
+            <label for="add-author-lname">Author Last Name</label>
+            <input type="text" class="form-control" id="add-author-lname" name="add-ath-lname" placeholder="Last Name">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="pudlisher-input">Publisher</label>
-            <input type="text" class="form-control" id="publisher-input" placeholder="Publisher">
+            <label for="add-publisher">Publisher</label>
+            <input type="text" class="form-control" id="add-publisher" name="add-publisher" placeholder="Publisher">
           </div>
           <div class="form-group col-md-4">
-            <label for="date-input">Date Published</label>
-            <input type="date" id="date-input" class="form-control">
+            <label for="add-date-published">Date Published</label>
+            <input type="date" id="add-date-published" name="add-date-published" class="form-control">
           </div>
           <div class="form-group col-md-2">
-            <label for="qty-input">Quantity</label>
-            <input type="number" class="form-control" id="qty-input">
+            <label for="add-qty">Quantity</label>
+            <input type="number" class="form-control" id="add-qty" name="add-qty">
           </div>
         </div>
         <button type="submit" class="btn btn-primary" name="addBook">Add Book</button>
@@ -56,17 +56,17 @@
       <form method="post" action="<?php //this will have the php file that will do the validation of all the info added ?>">
 
         <div class="form-group">
-          <label for="book-title-input">Book Title</label>
-          <input type="text" class="form-control" id="book-title-input" placeholder="Book Title">
+          <label for="rmv-book-title">Book Title</label>
+          <input type="text" class="form-control" id="rmv-book-title" name="rmv-book-title" placeholder="Book Title">
         </div>
         <div class="form-row" >
           <div class="form-group col-md-6">
-            <label for="isbn-input">ISBN</label>
-            <input type="text" class="form-control" id="isbn-input" placeholder="ISBN">
+            <label for="rmv-isbn">ISBN</label>
+            <input type="text" class="form-control" id="rmv-isbn" name="rmv-isbn" placeholder="ISBN">
           </div>
           <div class="form-group col-md-6">
-            <label for="qty-input">Quantity</label>
-            <input type="number" class="form-control" id="qty-input">
+            <label for="rmv-qty">Quantity</label>
+            <input type="number" class="form-control" id="rmv-qty" name="rmv-qty">
           </div>
         </div>
         <button type="submit" class="btn btn-primary" name="removeBook">Remove Book(s)</button>

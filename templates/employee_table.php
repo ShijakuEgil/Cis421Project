@@ -3,7 +3,7 @@
   @package CIS421 project
   @authors Egil Shijaku, ADD YOUR NAMES HERE GUYS
 
-  will display Employee table with results that are retreived from database query
+  Will display Employee table with results that are retreived from database query
 */
  ?>
 
@@ -22,34 +22,27 @@
        </tr>
      </thead>
      <tbody>
-<?php // TODO: Database functions are to be called in here so the data can be inserted in the table ?>
-       <tr>
-         <th scope="row">1</th>
-         <td>Mark</td>
-         <td>Otto</td>
-         <td>30,000</td>
-         <td>Mark@dumbass.ohyeah</td>
-         <td>First door to the right!!</td>
-         <td>Yes</td>
-       </tr>
-       <tr>
-         <th scope="row">2</th>
-         <td>Jacob</td>
-         <td>Thornton</td>
-         <td>30,000</td>
-         <td>Jacob@douche.bag</td>
-         <td>Mark's neighboor</td>
-         <td>No</td>
-       </tr>
-       <tr>
-         <th scope="row">3</th>
-         <td>Larry</td>
-         <td>Who</td>
-         <td>30,000</td>
-         <td>who@where.what</td>
-         <td>Mark's other neighboor</td>
-         <td>No</td>
-       </tr>
+<?php
+    // TODO: Database functions are to be called in here so the data can be inserted in the table
+?>
+
+<?php
+ $employee_info = employee_info();
+ $k = 1;
+foreach($employee_info as $employee):?>
+      <tr>
+        <th scope="row"><?php echo $k; ?></th>
+        <td><?php echo $employee['fname']; ?></td>
+        <td><?php echo $employee['lname']; ?></td>
+        <td><?php echo $employee['salary']; ?></td>
+        <td><?php echo $employee['email']; ?></td>
+        <td><?php echo $employee['address']; ?></td>
+        <td><?php echo $employee['isStudent']; ?></td>
+      </tr>
+<?php
+$k++;
+endforeach;
+?>
      </tbody>
    </table>
  </article>
