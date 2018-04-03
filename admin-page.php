@@ -41,13 +41,24 @@ session_start();?>
   $late_rentals_active = '';
   $AD_student_active = '';
 
+  // NOTE: activate the tabpanel
+  $employee_tabpanel ='';
+  $AD_book_tabpanel = '';
+  $rentals_tabpanel = '';
+  $late_rentals_tabpanel ='';
+  $AD_student_tabpanel ='';
+
   // NOTE if statement to see which operation was executed prior to page opening
-  if( isset( $_SESSION['book-added'] ) ):
+  if( isset( $_SESSION['book-added'] || isset( $_SESSION['book-removed'] ) ) ):
     $AD_book_active = 'active';
     $AD_book_selected = 'true';
+    $AD_book_tabpanel = 'active show';
+  }
   else:
     $employee_active = 'active';
     $employee_selected = 'true';
+    $employee_tabpanel = 'active show';
+
   endif;
   ?>
   <?php
@@ -104,34 +115,46 @@ session_start();?>
   located in teh templates folder.
 */
 ?>
-  <div class="tab-pane fade show active" id="libraryEmployees" role="tabpanel" aria-labelledby="libraryEmployees-tab">
+  <div class="tab-pane fade <?php echo $employee_tabpanel; ?>" id="libraryEmployees" role="tabpanel" aria-labelledby="libraryEmployees-tab">
     <?php include('templates/employee_table.php');?>
   </div>
-  <div class="tab-pane fade" id="addDropBooks" role="tabpanel" aria-labelledby="addDropBooks-tab">
+  <div class="tab-pane fade  <?php echo $AD_book_tabpanel; ?>" id="addDropBooks" role="tabpanel" aria-labelledby="addDropBooks-tab">
     <?php include('templates/add_drop_books.php'); ?>
-    <?php
-    if(isset($_SESSION['book-added']) && $_SESSION['book-added'] ==='F'):
+    <div class="ad-book-feedback-wrapper container-fluid">
+      <?php
+
+      if(isset($_SESSION['book-added']) && $_SESSION['book-added'] ==='F'):
+        ?>
+        <small class="text-danger">Book not added, try again.</small>
+      <?php
+
+      elseif( isset( $_SESSION['book-added']) && $_SESSION['book-added'] ==='T'):
+        ?>
+        <small class="text-success">Successfully added the book(s)!</small>
+      <?php
+
+      elseif( isset( $_SESSION['book-removed'] && $_SESSION['book-removed'] === 'T' ) ):
       ?>
-      <small class="text-danger">Book not added, try again.</small>
-    <?php
-    elseif(isset($_SESSION['book-added']) && $_SESSION['book-added'] ==='T'):
+        <small class="text-success float-right">Successfully removed the book(s)!</small>
+      <?php
+      elseif( isset( $_SESSION['book-removed'] && $_SESSION['book-removed'] === 'F') ):
+        ?>
+        <small class="text-danger float-right">Book not removed, </small>
+      endif;
+
+      unset($_SESSION['book-added']);
       ?>
-      <small class="text-success">Successfully added the book(s)!</small>
-    <?php
-    endif;
-    unset($_SESSION['book-added']);
-    ?>
+    </div>
   </div>
-  <div class="tab-pane fade" id="rentals" role="tabpanel" aria-labelledby="rentals-tab">
+  <div class="tab-pane fade <?php echo $rentals_tabpanel; ?>" id="rentals" role="tabpanel" aria-labelledby="rentals-tab">
     <?php include('templates/rentals.php'); ?>
   </div>
-  <div class="tab-pane fade" id="lateRentals" role="tabpanel" aria-labelledby="lateRentals-tab">
+  <div class="tab-pane fade <?php echo $late_rentals_tabpanel; ?>" id="lateRentals" role="tabpanel" aria-labelledby="lateRentals-tab">
     <?php include('templates/late_rentals.php'); ?>
   </div>
-  <div class="tab-pane fade" id="addDropStudent" role="tabpanel" aria-labelledby="addDropStudent-tab">
+  <div class="tab-pane fade <?php echo $AD_student_tabpanel; ?>" id="addDropStudent" role="tabpanel" aria-labelledby="addDropStudent-tab">
     <?php include('templates/add_drop_student.php'); ?>
   </div>
 </div>
 </main>
-
 <?php include('footer.php'); ?>

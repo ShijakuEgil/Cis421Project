@@ -88,15 +88,16 @@ function employee_info(){
 functionality Admin Page: 4 add books
 */
 function add_books($book_title, $isbn, $athFName,$athLName, $publisher, $date_published, $qty){
+  // TODO: SQl QUERY and functionality goes here
   return true;
 }
 
 /*
 functionality Admin Page: 4 remove books
 */
-function remove_books(){
-  $removed_book = true;
-  return $removed_book;
+function remove_books($book_title, $isbn, $qty){
+  // TODO: SQl QUERY and functionality goes here
+  return true;
 }
 
 /*

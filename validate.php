@@ -65,3 +65,17 @@ elseif( isset( $_POST['addBook'] ) ) {
     header('Location:admin-page.php');
     die();
   }
+  elseif(isset($_POST['removeBook'])){
+    $book_title = ''; // $_POST['rmv-book-title'];
+    $book_id ='';     //$_POST['rmv-isbn'];
+    $qty = '';        //$_POST['rmv-qty'];
+
+    if( remove_books( $book_title, $book_id, $qty ) ) {
+      $_SESSION['book-removed'] = 'T';
+    }
+    else{
+      $_SESSION['book-removed'] = 'F';
+    }
+
+    header( 'Location:admin-page.php');
+  }
