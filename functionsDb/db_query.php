@@ -138,39 +138,11 @@ function returns(){
 functionality Admin Page: 3 Employee Data tab
 */
 function employee_info(){
-  // global $connection;
-  // $sql = "SELECT * FROM Employee";
-  // $result = $connection->query($sql);
+  global $connection;
+  $sql = "SELECT * FROM Employee";
+  $result = $connection->query($sql);
 
-
- $employee_info = array(//stub array
-    array(
-      'fname' => 'Mark',
-      'lname' => 'Otto',
-      'salary'=> '30,000',
-      'email' => 'email@email.com',
-      'address' =>  '1111 address  Adress, AD 1111',
-      'isStudent' => 'Yes'
-    ),
-    array(
-      'fname' => 'Jacob',
-      'lname' => 'Thornton',
-      'salary'=> '30,000',
-      'email' => 'email@email.com',
-      'address' =>  '1111 address  Adress, AD 1111',
-      'isStudent' => 'Yes'
-    ),
-    array(
-      'fname' => 'Larry',
-      'lname' => 'Who',
-      'salary'=> '30,000',
-      'email' => 'email@email.com',
-      'address' =>  '1111 address  Adress, AD 1111',
-      'isStudent' => 'Yes'
-    ),
-  );
-  return $employee_info;
-  // return $result;// this will be the array with all the table rows
+  return $result;// this will be the array with all the table rows
 }
 
 /*
