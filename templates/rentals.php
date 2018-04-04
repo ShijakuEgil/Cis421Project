@@ -16,8 +16,8 @@
       <form method="post" action="<?php //this will have the php file that will do the validation of all the info added ?>">
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="isbn-input">ISBN</label>
-            <input type="text" class="form-control" id="isbn-input" placeholder="ISBN">
+            <label for="rentals-isbn">ISBN</label>
+            <input type="text" class="form-control" id="rentals-isbn" placeholder="ISBN">
           </div>
           <div class="form-group col-md-6">
             <label for="student-id-input">Student ID</label>

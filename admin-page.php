@@ -49,11 +49,10 @@ session_start();?>
   $AD_student_tabpanel ='';
 
   // NOTE if statement to see which operation was executed prior to page opening
-  if( isset( $_SESSION['book-added'] || isset( $_SESSION['book-removed'] ) ) ):
+  if( isset( $_SESSION['book-added']) || isset( $_SESSION['book-removed'] ) ):
     $AD_book_active = 'active';
     $AD_book_selected = 'true';
     $AD_book_tabpanel = 'active show';
-  }
   else:
     $employee_active = 'active';
     $employee_selected = 'true';
@@ -133,13 +132,14 @@ session_start();?>
         <small class="text-success">Successfully added the book(s)!</small>
       <?php
 
-      elseif( isset( $_SESSION['book-removed'] && $_SESSION['book-removed'] === 'T' ) ):
+      elseif( isset( $_SESSION['book-removed']) && $_SESSION['book-removed'] === 'T' ):
       ?>
         <small class="text-success float-right">Successfully removed the book(s)!</small>
       <?php
-      elseif( isset( $_SESSION['book-removed'] && $_SESSION['book-removed'] === 'F') ):
+      elseif( isset( $_SESSION['book-removed']) && $_SESSION['book-removed'] === 'F' ):
         ?>
         <small class="text-danger float-right">Book not removed, </small>
+    <?php
       endif;
 
       unset($_SESSION['book-added']);

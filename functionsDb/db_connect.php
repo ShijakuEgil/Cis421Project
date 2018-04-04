@@ -15,7 +15,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "cis421database";
+$dbname = "cis421projectdb";
 $connection = null;
 $connection = mysqli_connect($servername, $username, $password, $dbname);
 if($connection->connect_error) {
