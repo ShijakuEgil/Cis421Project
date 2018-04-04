@@ -13,6 +13,35 @@ function validate_login($email, $password){
   return true;
 }
 
+function curr_books_rented(){
+  $books_rented = array(// temp array remove when available
+    array(
+      'book_id'=>'123456789',
+      'title'=>'Where oh where is Egil',
+      'author'=>'Mad Max',
+      'date_rented'=>'1/13/15',
+      'due_date'=>'2/13/15',
+      'days_remaining'=>'3'
+    ),
+    array(
+      'book_id'=>'987654321',
+      'title'=>'Sam I Am',
+      'author'=>'Rabih',
+      'date_rented'=>'7/8/15',
+      'due_date'=>'9/8/15',
+      'days_remaining'=>'30'
+    ),
+    array(
+      'book_id'=>'456789963',
+      'title'=>'Where is Summer',
+      'author'=>'Mighty_j',
+      'date_rented'=>'4/4/18',
+      'due_date'=>'5/4/18',
+      'days_remaining'=>'30'
+    ),
+  );
+return $books_rented;   // TODO: return an array with all the table information
+}
 /*
 functionality Student Page: 1 Book search
                             2 Search Result
