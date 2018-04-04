@@ -1,28 +1,27 @@
 <?php
-/*
-@package CIS421 project
-@author Egil Shijaku, ADD YOUR NAMES HERE GUYS
 
-DATABASE CONNECTION
-*/
+  /* connection header
+  @package CIS421 project
+  @authors Egil Shijaku, Rabih Salamey
 
+  include in your .php file and specify a query.
+  e.g.   $sql = "SELECT * FROM Employee";
+         $result = $connection->query($sql);
+  */
+
+?>
+
+<?php
 $servername = "localhost";
 $username = "root";
 $password = "";
-$db_name = "cis421projectdb";
-$connect_check;
-$junk;
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$db_name", $username, $password);
-
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $connect_check = true;
-    }
-
-catch(PDOException $e)
-    {
-      $connect_check = false;
-      $junk = $e;
-
-    }
+$dbname = "cis421database";
+$connection = null;
+$connection = mysqli_connect($servername, $username, $password, $dbname);
+if($connection->connect_error) {
+  echo "Error: Unable to connect to mysql database" . PHP_EOL;
+  die("Connection failed: " . $connection->connect_error);
+}// else {
+//  $_SESSION["conn"] = $connection;
+//}
+?>
