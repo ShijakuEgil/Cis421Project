@@ -32,12 +32,12 @@
 foreach($employee_info as $employee):?>
       <tr>
         <th scope="row"><?php echo $k; ?></th>
-        <td><?php echo $employee['fname']; ?></td>
-        <td><?php echo $employee['lname']; ?></td>
+        <td><?php echo $employee['first_name']; ?></td>
+        <td><?php echo $employee['last_name']; ?></td>
         <td><?php echo $employee['salary']; ?></td>
         <td><?php echo $employee['email']; ?></td>
         <td><?php echo $employee['address']; ?></td>
-        <td><?php echo $employee['isStudent']; ?></td>
+        <td><?php echo $employee['employee_type']; ?></td>
       </tr>
 <?php
 $k++;
