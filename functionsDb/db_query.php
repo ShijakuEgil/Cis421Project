@@ -10,32 +10,33 @@ include("db_connect.php");
 /*
 functionality Login Page: 1 Validate Login
 */
-function validate_login($email, $password/*, $usertype*/){
-  // global $connection;
+function validate_login($email, $password){
+  global $connection;
 
-  // $shapassword = sha1($email . $password);
-  // if($usertype == "admin") {
-  //   $sql = "SELECT CASE WHEN EXISTS (
-  // 	         SELECT *
-  // 	         FROM [Employee]
-  // 	         WHERE employeeID = {$email}
-  // 	         AND password = {$shapassword}
-  //          )
-  //          THEN CAST(1 AS BIT)	//returns true if user exists and password is valid
-  //          ELSE CAST(0 AS BIT) END	//fail user";
-  //
-  // } else {
-  //
-  // $sql = "SELECT CASE WHEN EXISTS (
-	//          SELECT *
-	//          FROM [Students]
-	//          WHERE employeeID = {$email}
-	//          AND password = {$shapassword}
-  //        )
-  //        THEN CAST(1 AS BIT)	//returns true if user exists and password is valid
-  //        ELSE CAST(0 AS BIT) END	//fail user";
-  //  }
-  // $result = $connection->query($sql);
+  $usertype = "admin";  //need to update database schema to have this
+  $shapassword = sha1($email . $password);
+  if($usertype == "admin") {
+    $sql = "SELECT CASE WHEN EXISTS (
+  	         SELECT *
+  	         FROM [Employee]
+  	         WHERE employeeID = {$email}
+  	         AND password = {$shapassword}
+           )
+           THEN CAST(1 AS BIT)	//returns true if user exists and password is valid
+           ELSE CAST(0 AS BIT) END";	//fail user";
+
+  } else {
+
+  $sql = "SELECT CASE WHEN EXISTS (
+	         SELECT *
+	         FROM [Students]
+	         WHERE employeeID = {$email}
+	         AND password = {$shapassword}
+         )
+         THEN CAST(1 AS BIT)	//returns true if user exists and password is valid
+         ELSE CAST(0 AS BIT) END";	//fail user";
+   }
+  $result = $connection->query($sql);
   //return $result  //will be true or false.
   return true;
 }
@@ -92,11 +93,10 @@ function search_for_books($book_name, $book_id, $author){
 functionality Student Page: 3 Account View
 */
 function account_info($studentid){
-  // global $connection;
-  // $sql = "SELECT * FROM [Student]
-  //         WHERE studentid = {$studentid}";
-  // $result = $connection->query($sql);
-  return "Student info here";
+  global $connection;
+  $sql = "SELECT * FROM Student WHERE studentid = {$studentid}";
+  $result = $connection->query($sql);
+  return $result;
 }
 
 /*
@@ -111,14 +111,23 @@ functionality Admin Page: 1 add new user
 */
 function add_new_user($f_name, $l_name, $address, $email_address, $password){
   $added_user = true;
-  // $shapassword = sha1($password);
-  // global $connection;
-  // $sql = "INSERT INTO student(first_name, last_name, address, email, password)
-  //         VALUES ({$f_name}, {$l_name}, {$address}, {$email_address}, {$shapassword})"
-  // $result = $connection->query($sql);
+  $shapassword = sha1($email_address . $password);
+  global $connection;
+  if(unique_email($email_address)) {
+      $sql = "INSERT INTO student(first_name, last_name, address, email, password)
+          VALUES ({$f_name}, {$l_name}, {$address}, {$email_address}, {$shapassword})";
+          $result = $connection->query($sql);
+  }
   //return $result; //will tell you what # of what columns are charged
   return $added_user;
 }
+
+function unique_email($email_address) {
+  $sql = "SELECT CASE WHEN EXISTS(
+            SELECT * FROM Employee
+          )";
+}
+
 /*
 functionality Admin Page: 2 returns
 */
