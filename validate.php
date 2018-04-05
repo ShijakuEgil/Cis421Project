@@ -8,7 +8,7 @@
   if the data given matches the data in the databse than we will redirect
   the page to the admin page
 */
-require('functionsDB/db_query.php');
+require_once('functionsDb/db_query.php');
 session_start();
 
  if(isset($_POST['admin'])){
@@ -17,22 +17,28 @@ session_start();
    NOTE: Tested with  true and false return from validate_login() function
         for both Student and Admin logins.
 */
-    if( validate_login($_POST['inEmail'], $_POST['password'])):
-        header("Location:admin-page.php");
+        $email = $_POST['login-email'];
+        $password = $_POST['login-password'];
+    if( validate_login( $email, $password ) ):
         $_SESSION['login'] = 'T';
+        header("Location:admin-page.php");
     else:
-        header("Location:index.php");
+        echo $email ."  ". $password;
         $_SESSION['login'] = 'F';
+        // header("Location:index.php");
+
     endif;
 }
-elseif(isset($_POST['student'])){
+elseif( isset( $_POST['student'] ) ) {
   //same proccess as above this time for students
-  if( validate_login($_POST['inEmail'], $_POST['password'])):
-    header("Location:student-page.php");
+  if( validate_login( $_POST['login-email'], $_POST['login-password'] ) ):
     $_SESSION['login'] = 'T';
+    header("Location:student-page.php");
+
   else:
-    header("Location:index.php");
     $_SESSION['login'] = 'F';
+    header("Location:index.php");
+
   endif;
 }
 
@@ -76,6 +82,63 @@ elseif( isset( $_POST['addBook'] ) ) {
     else{
       $_SESSION['book-removed'] = 'F';
     }
-
     header( 'Location:admin-page.php');
+  }
+  elseif(isset($_POST['issue-rental'])){
+    $book_id = '';      //$_POST['rentals-isbn'];
+    $student_id = '';   //$POST['rentals-student-id'];
+
+    if( rent_books( $book_id, $student_id ) ) {
+      $_SESSION['book-rented'] = 'T';
+    }
+    else{
+      $_SESSION['book-rented'] = 'F';
+    }
+    header("Location:admin-page.php");
+  }
+  elseif(isset($_POST['restock-book'])){
+    $book_title = '';      //$_POST['restock-book-title'];
+    $book_isbn = '';       //$POST['restock-isbn'];
+
+    if( rent_books( $book_id, $student_id ) ) {
+      $_SESSION['book-stocked'] = 'T';
+    }
+    else{
+      $_SESSION['book-stocked'] = 'F';
+    }
+    header("Location:admin-page.php");
+  }
+  elseif(isset($_POST['add-student'])){
+    $student_fname = $_POST['student-fname'];
+    $student_lname = $_POST['student-lname'];
+    $student_email = $_POST['student-email'];
+    $student_password = $_POST['student-password'];
+    $student_address = $_POST['student-address'];
+    $student_address_2 = $_POST['student-address-2'];
+    $student_address_city = $_POST['student-address-city'];
+    $student_address_state = $_POST['student-address-state'];
+    $student_address_zip = $_POST['student-address-zip'];
+
+    $address = $student_address . ' '.$student_address_2 . ' '
+     .$student_address_city.' '.$student_address_state.' '
+     .$student_address_zip;
+
+    if( add_new_student( $student_fname, $student_lname, $address, $student_email, $student_password ) ) {
+      $_SESSION['student-added'] = 'T';
+    }
+    else{
+      $_SESSION['book-added'] = 'F';
+    }
+    header("Location:admin-page.php");
+  }
+  elseif(isset($_POST['remove-student'])){
+    $student_id = '';           //= $_POST['rmv-student-id'];
+
+    if( remove_student( $student_id ) ) {
+      $_SESSION['student-removed'] = 'T';
+    }
+    else{
+      $_SESSION['student-removed'] = 'F';
+    }
+    header("Location:admin-page.php");
   }

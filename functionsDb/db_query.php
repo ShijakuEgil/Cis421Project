@@ -1,45 +1,114 @@
 <?php
 /*
-@package CIS421 project
-@author Egil Shijaku, Mighty_j ADD YOUR NAMES HERE GUYS
-DATABASE QUERIES ARE DONE HERE
+    @package CIS421 project
+    @author Egil Shijaku, Mighty_j ADD YOUR NAMES HERE GUYS
+
+    DATABASE QUERIES ARE DONE HERE
 */
 
 //bring in the connection header.
-include("db_connect.php");
+require_once("db_connect.php");
+/*
+functionality Admin Page: 1 add new user
+*/
+function add_new_student($f_name, $l_name, $address, $email_address, $password){
+  // $added_user = true;
+  // $shapassword = sha1($email_address . $password);
+  // global $connection;
+  // // if(unique_email($email_address)) {
+  //     $sql = "INSERT INTO student(first_name, last_name, password, address, email)
+  //         VALUES ({$f_name}, {$l_name}, {$shapassword}, {$address}, {$email_address})";
+  //     if( $connection->query($sql) === TRUE ){
+  //       return true;
+  //     }
+  //     else{return false;}
+  // }
+  // return $added_user;
+  global $db_db;
+  //username needs to be unique
+  $query = 'SELECT email FROM student
+            WHERE email = :email';
+  $statement = $db_db->prepare($query);
+  $statement->bindValue(':email', $email_address);
+  $statement->execute();
+  $isUnique = ($statement->rowcount() < 1);
+  $statement->closeCursor();
+
+  if($isUnique){// email is unique so the user is added
+    // $password = sha1($email_address . $password);
+    $query = 'INSERT INTO student (first_name, last_name,  password, address, email)
+              VALUES (:fname, :lname, :password, :address, :email)';
+    $statement2 = $db_db->prepare($query);
+
+    $params = array(
+      'fname' =>  $f_name,
+      'lname' =>  $l_name,
+      'password' => $password,
+      'address' => $address,
+      'email' => $email_address
+    );
+    $statement2->execute($params);
+    $statement2->closeCursor();
+    return true;
+  }
+  else{
+    return false;
+  }
+
+}
+
 /*
 functionality Login Page: 1 Validate Login
 */
+
 function validate_login($email, $password){
-  global $connection;
-
-  $usertype = "admin";  //need to update database schema to have this
-  $shapassword = sha1($email . $password);
-  if($usertype == "admin") {
-    $sql = "SELECT CASE WHEN EXISTS (
-  	         SELECT *
-  	         FROM [Employee]
-  	         WHERE employeeID = {$email}
-  	         AND password = {$shapassword}
-           )
-           THEN CAST(1 AS BIT)	//returns true if user exists and password is valid
-           ELSE CAST(0 AS BIT) END";	//fail user";
-
-  } else {
-
-  $sql = "SELECT CASE WHEN EXISTS (
-	         SELECT *
-	         FROM [Students]
-	         WHERE employeeID = {$email}
-	         AND password = {$shapassword}
-         )
-         THEN CAST(1 AS BIT)	//returns true if user exists and password is valid
-         ELSE CAST(0 AS BIT) END";	//fail user";
-   }
-  $result = $connection->query($sql);
-  //return $result  //will be true or false.
-  return true;
+  global $db_db;
+  // $password = sha1($email . $password);
+  $query = "SELECT email, password FROM student
+            WHERE  email = :email AND password = :password";
+  $statement = $db_db->prepare($query);
+  $params = array(
+    'email'   =>    $email,
+    'password'  =>  $password,
+  );
+  $statement->execute($params);
+  if($statement->rowCount() > 0){
+      $statement->closeCursor();
+      return true;
+  }
+  else{
+    $statement->closeCursor();
+    return false;
+  }
 }
+// global $connection;
+//
+// $usertype = "admin";  //need to update database schema to have this
+// $shapassword = sha1($email . $password);
+// if($usertype == "admin") {
+//   $sql = "SELECT CASE WHEN EXISTS (
+// 	         SELECT *
+// 	         FROM [Employee]
+// 	         WHERE employeeID = {$email}
+// 	         AND password = {$shapassword}
+//          )
+//          THEN CAST(1 AS BIT)	//returns true if user exists and password is valid
+//          ELSE CAST(0 AS BIT) END";	//fail user";
+//
+// } else {
+//
+// $sql = "SELECT CASE WHEN EXISTS (
+//          SELECT *
+//          FROM [Students]
+//          WHERE employeeID = {$email}
+//          AND password = {$shapassword}
+//        )
+//        THEN CAST(1 AS BIT)	//returns true if user exists and password is valid
+//        ELSE CAST(0 AS BIT) END";	//fail user";
+//  }
+// $result = $connection->query($sql);
+// return $result;  //will be true or false.
+// // return true;
 
 function curr_books_rented(){
   $books_rented = array(// temp array remove when available
@@ -102,24 +171,12 @@ function account_info($studentid){
 /*
 functionality Student Page: 4 Rent Books
 */
-function rent_books(){
-  return "rented Scotts Tots";
+function rent_books($book_id, $student_id){
+  return true; //this will return true if the query to rent a book is done successfully
 }
 
-/*
-functionality Admin Page: 1 add new user
-*/
-function add_new_user($f_name, $l_name, $address, $email_address, $password){
-  $added_user = true;
-  $shapassword = sha1($email_address . $password);
-  global $connection;
-  if(unique_email($email_address)) {
-      $sql = "INSERT INTO student(first_name, last_name, address, email, password)
-          VALUES ({$f_name}, {$l_name}, {$address}, {$email_address}, {$shapassword})";
-          $result = $connection->query($sql);
-  }
-  //return $result; //will tell you what # of what columns are charged
-  return $added_user;
+function remove_student( $student_id ){
+   return true;
 }
 
 function unique_email($email_address) {
@@ -138,11 +195,39 @@ function returns(){
 functionality Admin Page: 3 Employee Data tab
 */
 function employee_info(){
-  global $connection;
-  $sql = "SELECT * FROM Employee";
-  $result = $connection->query($sql);
+  // global $connection;/
+  // $sql = "SELECT * FROM Employee";
+  // $result = $connection->query($sql);
 
-  return $result;// this will be the array with all the table rows
+
+ $employee_info = array(//stub array
+    array(
+      'fname' => 'Mark',
+      'lname' => 'Otto',
+      'salary'=> '30,000',
+      'email' => 'email@email.com',
+      'address' =>  '1111 address  Adress, AD 1111',
+      'isStudent' => 'Yes'
+    ),
+    array(
+      'fname' => 'Jacob',
+      'lname' => 'Thornton',
+      'salary'=> '30,000',
+      'email' => 'email@email.com',
+      'address' =>  '1111 address  Adress, AD 1111',
+      'isStudent' => 'Yes'
+    ),
+    array(
+      'fname' => 'Larry',
+      'lname' => 'Who',
+      'salary'=> '30,000',
+      'email' => 'email@email.com',
+      'address' =>  '1111 address  Adress, AD 1111',
+      'isStudent' => 'Yes'
+    ),
+  );
+  return $employee_info;
+  // return $result;// this will be the array with all the table rows
 }
 
 /*
