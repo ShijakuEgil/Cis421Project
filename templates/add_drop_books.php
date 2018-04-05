@@ -8,7 +8,6 @@
  ?>
 
  <article class="row add-drop-books-wrapper">
-
     <div class="col-6 text-center border-right p-5 mt-5">
 
       <h1 class="display-3">Add a New Book</h1>
