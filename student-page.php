@@ -30,32 +30,32 @@
     <?php
 
     // NOTE need to figure out what variables are needed for tabs
-    $activate_renatls='';
-    $select_rentals='false';
-    $want_to_search='';
-    $search_selected='false';
 
-    $rented_book_tab='';
 
     ?>
+
     <li class="nav-item">
-      <a class="nav-link <?php echo $activate_renatls; ?>" id="Books Rented" data-toggle="tab" href="#curr_rentals"
-        role="tab" aria-controls="curr_rentals" aria-selected="<?php echo $select_rentals;?>">
+      <a class="nav-link active show" id="Books Rented" data-toggle="tab" href="#curr_rentals" role="tab" aria-controls="curr_rentals" aria-selected="true">
         Current Rentals
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link <?php echo $want_to_search; ?>"
-        id="search-tab" data-toggle="tab" href="#searching" role="tab" aria-controls="searching"
-        aria-selected="<?php echo $search_selected?>">
+      <a class="nav-link" id="Searching" data-toggle="tab" href="#searching" role="tab" aria-controls="searching" aria-selected="false">
         Search
       </a>
     </li>
 </ul>
+
 <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade <?php echo $rentals_tabpanel; ?>" id="curr_rentals" role="tabpanel"
-      aria-labelledby="curr_rentals-tab">
+
+    <div class="tab-pane active" id="curr_rentals" role="tabpanel" aria-labelledby="curr_rentals-tab">
       <?php include('templates/rented_table.php');?>
     </div>
 
+    <div class="tab-pane" id="searching" role="tabpanel" aria-labelledby="searching-tab">
+      <?php include('templates/searching_table.php');?>
+    </div>
+
+</div>
+</main>
 <?php include('footer.php');?>

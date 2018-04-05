@@ -26,6 +26,10 @@ data base queries
       <tbody>
 
 <?php
+                // TODO: add functions for database searches
+?>
+
+<?php
 $rented_books = curr_books_rented();
 $k = 1;
 foreach($rented_books as $rented):?>
