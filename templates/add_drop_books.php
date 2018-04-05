@@ -8,7 +8,6 @@
  ?>
 
  <article class="row add-drop-books-wrapper">
-
     <div class="col-6 text-center border-right p-5 mt-5">
 
       <h1 class="display-3">Add a New Book</h1>
@@ -53,7 +52,7 @@
     <div class="col-6 text-center border-left p-5 mt-5">
       <h1 class="display-3">Remove a Book</h1>
 
-      <form method="post" action="<?php //this will have the php file that will do the validation of all the info added ?>">
+      <form method="post" action="validate.php">
 
         <div class="form-group">
           <label for="rmv-book-title">Book Title</label>

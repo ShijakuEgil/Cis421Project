@@ -9,20 +9,11 @@
 
 <?php include('header.php');
 require_once('functionsDb/db_query.php');
-session_start();?>
-<header>
-  <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><i class="fas fa-book fa-1x"></i>  University Library</a>
-    <ul class="nav navbar-nav d-inline-block px-3">
-      <li class="nav-item d-inline-flex text-nowrap mx-3 my-auto">
-        <p class="nav-link "><?php /*temporary echo*/echo 'Admin Name'//php call to be made here so it will get the name of the current user ?></p>
-      </li>
-      <li class="nav-item d-inline-flex text-nowrap my-auto">
-        <a class="nav-link" href="#">Sign out</a>
-      </li>
-    </ul>
-  </nav>
-</header>
+session_start();
+include('templates/navbar.php');?>
+
+
+<?php if($_SESSION['login'] === 'T'): ?>
 <main class="mx-5">
   <ul class="nav nav-tabs nav-justified mt-5" id="myTab" role="tablist">
   <?php //NOTE logic for page recalls after a form is submitted to validate.php
@@ -48,16 +39,23 @@ session_start();?>
   $late_rentals_tabpanel ='';
   $AD_student_tabpanel ='';
 
-  // NOTE if statement to see which operation was executed prior to page opening
+  // NOTE if-else statement to decide which operation was executed prior to page opening
   if( isset( $_SESSION['book-added']) || isset( $_SESSION['book-removed'] ) ):
     $AD_book_active = 'active';
     $AD_book_selected = 'true';
     $AD_book_tabpanel = 'active show';
+  elseif( isset( $_SESSION['book-rented']) || isset( $_SESSION['book-stocked'] ) ):
+    $rentals_selected = 'true';
+    $rentals_active = 'active';
+    $rentals_tabpanel = 'active show';
+  elseif( isset( $_SESSION['student-added']) || isset( $_SESSION['student-removed'] ) ):
+    $AD_student_selected = 'true';
+    $AD_student_active = 'active';
+    $AD_student_tabpanel = 'active show';
   else:
     $employee_active = 'active';
     $employee_selected = 'true';
     $employee_tabpanel = 'active show';
-
   endif;
   ?>
   <?php
@@ -141,20 +139,85 @@ session_start();?>
         <small class="text-danger float-right">Book not removed, </small>
     <?php
       endif;
-
-      unset($_SESSION['book-added']);
+      if(isset($_SESSION['book-added'])):
+        unset($_SESSION['book-added']);
+      elseif(isset($_SESSION['book-removed'])):
+        unset($_SESSION['book-removed']);
+      endif;
       ?>
     </div>
   </div>
   <div class="tab-pane fade <?php echo $rentals_tabpanel; ?>" id="rentals" role="tabpanel" aria-labelledby="rentals-tab">
     <?php include('templates/rentals.php'); ?>
+    <div class="rentals-feedback-wrapper container-fluid">
+      <?php
+
+      if(isset($_SESSION['book-rented']) && $_SESSION['book-rented'] ==='F'):
+        ?>
+        <small class="text-danger">Book could not be rented, try again.</small>
+      <?php
+
+      elseif( isset( $_SESSION['book-rented']) && $_SESSION['book-rented'] ==='T'):
+        ?>
+        <small class="text-success">Successfully rented the book(s)!</small>
+      <?php
+
+      elseif( isset( $_SESSION['book-stocked']) && $_SESSION['book-stocked'] === 'T' ):
+      ?>
+        <small class="text-success float-right">Successfully stocked the book(s)!</small>
+      <?php
+      elseif( isset( $_SESSION['book-stocked']) && $_SESSION['book-stocked'] === 'F' ):
+        ?>
+        <small class="text-danger float-right">Book not stocked, try again!</small>
+    <?php
+      endif;
+      if(isset($_SESSION['book-rented'])):
+        unset($_SESSION['book-rented']);
+      elseif(isset($_SESSION['book-stocked'])):
+        unset($_SESSION['book-stocked']);
+      endif;
+      ?>
+    </div>
   </div>
   <div class="tab-pane fade <?php echo $late_rentals_tabpanel; ?>" id="lateRentals" role="tabpanel" aria-labelledby="lateRentals-tab">
     <?php include('templates/late_rentals.php'); ?>
   </div>
   <div class="tab-pane fade <?php echo $AD_student_tabpanel; ?>" id="addDropStudent" role="tabpanel" aria-labelledby="addDropStudent-tab">
     <?php include('templates/add_drop_student.php'); ?>
+    <div class="ad-student-feedback-wrapper container-fluid">
+      <?php
+
+      if(isset($_SESSION['student-added']) && $_SESSION['student-added'] ==='F'):
+        ?>
+        <small class="text-danger">Student not added, try again.</small>
+      <?php
+
+      elseif( isset( $_SESSION['student-added']) && $_SESSION['student-added'] ==='T'):
+        ?>
+        <small class="text-success">Successfully added the student!</small>
+      <?php
+      elseif( isset( $_SESSION['student-removed']) && $_SESSION['student-removed'] === 'T' ):
+      ?>
+        <small class="text-success float-right">Successfully removed the book(s)!</small>
+      <?php
+      elseif( isset( $_SESSION['student-removed']) && $_SESSION['student-removed'] === 'F' ):
+        ?>
+        <small class="text-danger float-right">Book not removed, </small>
+    <?php
+      endif;
+      if(isset($_SESSION['student-added'])):
+        unset($_SESSION['student-added']);
+      elseif(isset($_SESSION['student-removed'])):
+        unset($_SESSION['student-removed']);
+      endif;
+      ?>
+    </div>
   </div>
 </div>
 </main>
+
+<?php
+else:
+  header('Location:index.php');
+endif; ?>
 <?php include('footer.php'); ?>
