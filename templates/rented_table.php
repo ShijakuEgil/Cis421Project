@@ -24,9 +24,7 @@ data base queries
         </tr>
       </thead>
       <tbody>
-<?php
-  // TODO: add functions for database searches
-?>
+
 <?php
 $rented_books = curr_books_rented();
 $k = 1;

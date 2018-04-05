@@ -26,6 +26,36 @@
     </nav>
 </header>
 <main class="mx-5">
-  <?php include('templates/Student_table.php');?>
+  <ul class="nav nav-tabs nav-justified mt-5" id="myTab" role="tablist">
+    <?php
+
+    // NOTE need to figure out what variables are needed for tabs
+    $activate_renatls='';
+    $select_rentals='false';
+    $want_to_search='';
+    $search_selected='false';
+
+    $rented_book_tab='';
+
+    ?>
+    <li class="nav-item">
+      <a class="nav-link <?php echo $activate_renatls; ?>" id="Books Rented" data-toggle="tab" href="#curr_rentals"
+        role="tab" aria-controls="curr_rentals" aria-selected="<?php echo $select_rentals;?>">
+        Current Rentals
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <?php echo $want_to_search; ?>"
+        id="search-tab" data-toggle="tab" href="#searching" role="tab" aria-controls="searching"
+        aria-selected="<?php echo $search_selected?>">
+        Search
+      </a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade <?php echo $rentals_tabpanel; ?>" id="curr_rentals" role="tabpanel"
+      aria-labelledby="curr_rentals-tab">
+      <?php include('templates/rented_table.php');?>
+    </div>
 
 <?php include('footer.php');?>
