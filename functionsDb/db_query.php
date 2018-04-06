@@ -171,11 +171,11 @@ return $books_rented;   // TODO: return an array with all the table information
 functionality Student Page: 1 Book search
                             2 Search Result
 */
-function search_for_books($book_name, $book_id, $author){
+function search_for_books($value){
   // $found_name = "Carl the magician";
   // $found_id = 123456789;
   // $author = "Michael Scott";
-  //
+  $found = array();
   // global $connection;
   // $sql = "SELECT * FROM Book
   //         WHERE LIKE %{$book_name}%
@@ -184,6 +184,7 @@ function search_for_books($book_name, $book_id, $author){
   // $result = $connection->query($sql);
   // //return $result;
   // return array($found_name, $found_id, $author);
+  return $found;
 }
 
 /*

@@ -14,28 +14,10 @@
       placeholder="Search">
       <small id="searchFunction" class="form-text text-muted">Enter search here</small>
     </div>
-    <button type="Search" class="btn btn-primary">Search</button>
+    <button type="submit" name="Search" id="Search" class="btn btn-primary">Search</button>
   </form>
-    <!-- <table class="mt-5">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Library Number</th>
-          <th scope="col">ISBN</th>
-          <th scope="col">Title</th>
-          <th scope="col">Author</th>
-          <th scope="col">Publisher</th>
-        </tr>
-      </thead>
-      <tbody> -->
+  <div class="search-table-wrapper container-fluid no-gutters text-center">
 
-<?php
-          // TODO: add functions for database searches
-?>
+  </div>
 
-<?php
-        // PRINT OUTPUT FROM QUEREIES
-?>
-    <!-- </tbody> -->
-  <!-- </table> -->
 </article>

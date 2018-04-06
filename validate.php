@@ -143,3 +143,14 @@ elseif( isset( $_POST['addBook'] ) ) {
     }
     header("Location:admin-page.php");
   }
+elseif(isset($_POST['Search'])){
+  $search_string = $_Post['searchBar'];
+  $results = search_for_books($search_string);
+
+  if (!empty($results)) {
+    return $results;
+  }
+  else{
+    return "No results found";
+  }
+}
