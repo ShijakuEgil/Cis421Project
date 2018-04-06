@@ -126,7 +126,7 @@ function validate_login($email, $password, $type){
   global $db_db;
   if($type == 'admin'){
     // $password = sha1($email . $password);
-    $query = "SELECT email, password FROM employee
+    $query = "SELECT email, password, first_name FROM employee
               WHERE  email = :email AND password = :password";
     $statement = $db_db->prepare($query);
     $params = array(
@@ -134,7 +134,10 @@ function validate_login($email, $password, $type){
       'password'  =>  $password
     );
     $statement->execute($params);
+    $result = $statement->fetchAll();
     if($statement->rowCount() > 0){
+      session_start();
+      $_SESSION['name'] = $result[0]['first_name'];
         $statement->closeCursor();
         return true;
     }
@@ -145,7 +148,7 @@ function validate_login($email, $password, $type){
   }
   elseif($type == 'student'){
     // $password = sha1($email . $password);
-    $query = "SELECT email, password FROM student
+    $query = "SELECT email, password, first_name FROM student
               WHERE  email = :email AND password = :password";
     $statement = $db_db->prepare($query);
     $params = array(
@@ -153,8 +156,12 @@ function validate_login($email, $password, $type){
       'password'  =>  $password
     );
     $statement->execute($params);
+    $result = $statement->fetchAll();
     if($statement->rowCount() > 0){
+      session_start();
+      $_SESSION['name'] = $result[0]['first_name'];
         $statement->closeCursor();
+
         return true;
     }
     else{

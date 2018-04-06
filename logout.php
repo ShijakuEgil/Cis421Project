@@ -5,3 +5,5 @@
 
     LOGOUT OF THE CURENT USER
 */
+session_destroy();
+header('Location:index.php');

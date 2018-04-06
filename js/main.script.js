@@ -1,7 +1,9 @@
 jQuery(document).ready(function($){
 
-  $.("#Search").on('click', function(){
-    var searchString = $('#searchBar').val();
+  $("#search").on('click', function(){
+
+    var searchString = $("input:text").val();
+
     $.ajax({
       type: "POST",
       url:"functionsDb/db_search.php",
@@ -13,26 +15,32 @@ jQuery(document).ready(function($){
         console.log(status);
       },
       success:function(data){
-        $("#search-table-wrapper").append(
-          "<table class='mt-5'>"+
-            "<thead class="thead-dark">"+
-              "<tr>"
-                "<th scope="col">#</th>"+
-                "<th scope="col">Library Number</th>"+
-                "<th scope="col">ISBN</th>"+
-                "<th scope="col">Title</th>"+
-                "<th scope="col">Author</th>"+
-                "<th scope="col">Publisher</th>"+
-              "</tr>"
-            "</thead>"
-            "<tbody>"
-          "</tbody>"
-         "</table>"
-        );
+        console.log(data);
+        $(".blockquote").remove();
+
+        if(data.length == 0){
+          $(".search-table-wrapper").append(
+            '<blockquote class="blockquote">'+
+              '<p class="mb-0 h1">No results</p>'+
+            '</blockquote>'
+          );
+        }
+        else{
+          for(var i = 0; i < data.length; i++){
+            $(".search-table-wrapper").append(
+              '<blockquote class="blockquote text-left">'+
+                '<p class="mb-0 h1">'+ data[i].title +'</p>'+
+                '<footer class="blockquote-footer">Author: <cite title="Source Title">'+
+                data[i].author_first_name + " " + data[i].author_last_name + '</cite></footer>'+
+                '<footer class="blockquote-footer">Publisher: <cite title="Source Title">'+
+                data[i].publisher + '</cite></footer>'+
+                '<footer class="blockquote-footer">ISBN: <cite title="Source Title">'+
+                data[i].isbn + '</cite></footer>'+
+              '</blockquote>'
+              );
+          }
+        }
       }
     });
   });
-
-
-  //jquery functions go here...
 });
