@@ -1,16 +1,17 @@
 jQuery(document).ready(function($){
-  var searchString = $('#searchBar').val();
+
   $.("#Search").on('click', function(){
+    var searchString = $('#searchBar').val();
     $.ajax({
       type: "POST",
-      url:"functionsDb/db_search.php"
+      url:"functionsDb/db_search.php",
       data: {
         'searchString': searchString
       },
-      dataType: "JSON"
+      dataType: "JSON",
       error: function(status){
         console.log(status);
-      }
+      },
       success:function(data){
         $("#search-table-wrapper").append(
           "<table class='mt-5'>"+

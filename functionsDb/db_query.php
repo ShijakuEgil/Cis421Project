@@ -126,7 +126,7 @@ function validate_login($email, $password, $type){
   global $db_db;
   if($type == 'admin'){
     // $password = sha1($email . $password);
-    $query = "SELECT email, password, studentid FROM employee
+    $query = "SELECT email, password FROM employee
               WHERE  email = :email AND password = :password";
     $statement = $db_db->prepare($query);
     $params = array(
