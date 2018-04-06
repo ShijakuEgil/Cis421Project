@@ -24,6 +24,7 @@ include('templates/navbar.php');?>
   $rentals_selected  = 'false';
   $late_rentals_selected = 'false';
   $AD_student_selected = 'false';
+  $AD_employee_selected = 'false';
 
   // NOTE activate the link that will start the page
   $employee_active = '';
@@ -31,6 +32,7 @@ include('templates/navbar.php');?>
   $rentals_active = '';
   $late_rentals_active = '';
   $AD_student_active = '';
+  $AD_employee_active = '';
 
   // NOTE: activate the tabpanel
   $employee_tabpanel ='';
@@ -38,6 +40,7 @@ include('templates/navbar.php');?>
   $rentals_tabpanel = '';
   $late_rentals_tabpanel ='';
   $AD_student_tabpanel ='';
+  $AD_employee_tabpanel = '';
 
   // NOTE if-else statement to decide which operation was executed prior to page opening
   if( isset( $_SESSION['book-added']) || isset( $_SESSION['book-removed'] ) ):
@@ -70,6 +73,15 @@ include('templates/navbar.php');?>
       Library Employees
     </a>
   </li>
+
+  <li class="nav-item">
+    <a class="nav-link <?php echo $ad_employee_active; ?>"
+      id="ad-employee-tab" data-toggle="tab" href="#adEmployees" role="tab" aria-controls="adEmployees"
+      aria-selected="<?php echo $ad_employee_selected;?>">
+    Add/Drop Employees
+    </a>
+  </li>
+
 
   <li class="nav-item">
     <a class="nav-link <?php echo $AD_book_active; ?>"
@@ -114,6 +126,9 @@ include('templates/navbar.php');?>
 ?>
   <div class="tab-pane fade <?php echo $employee_tabpanel; ?>" id="libraryEmployees" role="tabpanel" aria-labelledby="libraryEmployees-tab">
     <?php include('templates/employee_table.php');?>
+  </div>
+  <div class="tab-pane fade <?php echo $ad_employee_tabpanel; ?>" id="adEmployees" role="tabpanel" aria-labelledby="adEmployees-tab">
+    <?php include('templates/add_drop_employee.php');?>
   </div>
   <div class="tab-pane fade  <?php echo $AD_book_tabpanel; ?>" id="addDropBooks" role="tabpanel" aria-labelledby="addDropBooks-tab">
     <?php include('templates/add_drop_books.php'); ?>

@@ -19,11 +19,11 @@ session_start();
 */
         $email = $_POST['login-email'];
         $password = $_POST['login-password'];
-    if( validate_login( $email, $password ) ):
+        $type = 'admin';
+    if( validate_login( $email, $password , $type) ):
         $_SESSION['login'] = 'T';
         header("Location:admin-page.php");
     else:
-  //      echo $email ."  ". $password;
         $_SESSION['login'] = 'F';
          header("Location:index.php");
 
@@ -31,7 +31,8 @@ session_start();
 }
 elseif( isset( $_POST['student'] ) ) {
   //same proccess as above this time for students
-  if( validate_login( $_POST['login-email'], $_POST['login-password'] ) ):
+  $type  ='student';
+  if( validate_login( $_POST['login-email'], $_POST['login-password'], $type ) ):
     $_SESSION['login'] = 'T';
     header("Location:student-page.php");
 
@@ -52,13 +53,13 @@ elseif( isset( $_POST['addBook'] ) ) {
 */
 // NOTE: Using empty variables for testing
 // DEBUG: the commented code to the right will be used in final call.
-    $book_title = '';    // = $_POST['add-book-title'];
-    $book_id = '';        //= $_POST['add-isbn'];
-    $ath_fname = '';      //= $_POST['add-ath-fName'];
-    $ath_lname = '' ;     //= $_POST['add-ath-lname'];
-    $publisher = '';     // = $_POST['add-publisher'];
-    $date_published = '';//= $_POST['add-date-published'];
-    $qty='';           // = $_POST['add-qty'];
+    $book_title = $_POST['add-book-title'];
+    $book_id = $_POST['add-isbn'];
+    $ath_fname = $_POST['add-ath-fName'];
+    $ath_lname = $_POST['add-ath-lname'];
+    $publisher  = $_POST['add-publisher'];
+    $date_published = $_POST['add-date-published'];
+    $qty = $_POST['add-qty'];
 
     // NOTE: add_books() returns true at all time so
     //       else executed only when add_books() returns false

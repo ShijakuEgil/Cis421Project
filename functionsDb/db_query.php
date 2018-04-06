@@ -8,6 +8,14 @@
 
 //bring in the connection header.
 require_once("db_connect.php");
+
+function remove_employee($employee_id){
+  return true// stub return
+}
+
+function add_employee($fname, $lname, $salary, $address, $type, $password){
+  return true;
+}
 /*
 functionality Admin Page: 1 add new user
 */
@@ -54,31 +62,51 @@ function add_new_student($f_name, $l_name, $address, $email_address, $password){
   else{
     return false;
   }
-
 }
 
 /*
 functionality Login Page: 1 Validate Login
 */
 
-function validate_login($email, $password){
+function validate_login($email, $password, $type){
   global $db_db;
-  // $password = sha1($email . $password);
-  $query = "SELECT email, password FROM student
-            WHERE  email = :email AND password = :password";
-  $statement = $db_db->prepare($query);
-  $params = array(
-    'email'   =>    $email,
-    'password'  =>  $password,
-  );
-  $statement->execute($params);
-  if($statement->rowCount() > 0){
+  if($type == 'admin'){
+    // $password = sha1($email . $password);
+    $query = "SELECT email, password FROM student
+              WHERE  email = :email AND password = :password";
+    $statement = $db_db->prepare($query);
+    $params = array(
+      'email'   =>    $email,
+      'password'  =>  $password,
+    );
+    $statement->execute($params);
+    if($statement->rowCount() > 0){
+        $statement->closeCursor();
+        return true;
+    }
+    else{
       $statement->closeCursor();
-      return true;
+      return false;
+    }
   }
-  else{
-    $statement->closeCursor();
-    return false;
+  elseif($type == 'student'){
+    // $password = sha1($email . $password);
+    $query = "SELECT email, password FROM employee
+              WHERE  email = :email AND password = :password";
+    $statement = $db_db->prepare($query);
+    $params = array(
+      'email'   =>    $email,
+      'password'  =>  $password,
+    );
+    $statement->execute($params);
+    if($statement->rowCount() > 0){
+        $statement->closeCursor();
+        return true;
+    }
+    else{
+      $statement->closeCursor();
+      return false;
+    }
   }
 }
 // global $connection;
