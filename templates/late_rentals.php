@@ -26,10 +26,10 @@
       foreach($late_rentals as $rentals):?>
       <tr>
         <th scope="row"><?php echo $k; ?></th>
-        <td><?php echo $rentals['fname']; ?></td>
-        <td><?php echo $rentals['lname']; ?></td>
-        <td><?php echo $rentals['book_title']; ?></td>
-        <td><?php echo $rentals['days_late']; ?></td>
+        <td><?php echo $rentals['first_name']; ?></td>
+        <td><?php echo $rentals['last_name']; ?></td>
+        <td><?php echo $rentals['title']; ?></td>
+        <td><?php echo $rentals['date_due']; ?></td>
       </tr>
 <?php $k++; endforeach;?>
      </tbody>

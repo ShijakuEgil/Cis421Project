@@ -20,27 +20,20 @@ data base queries
           <th scope="col">author</th>
           <th scope="col">date_rented</th>
           <th scope="col">due_date</th>
-          <th scope="col">days_remaining</th>
         </tr>
       </thead>
       <tbody>
-
 <?php
-                // TODO: add functions for database searches
-?>
-
-<?php
-$rented_books = curr_books_rented();
+$rented_books = curr_books_rented( $_SESSION['user'] );
 $k = 1;
 foreach($rented_books as $rented):?>
        <tr>
          <th scope="row"><?php echo $k; ?></th>
-         <td><?php echo $rented['book_id']; ?></td>
+         <td><?php echo $rented['bookid']; ?></td>
          <td><?php echo $rented['title']; ?></td>
-         <td><?php echo $rented['author']; ?></td>
+         <td><?php echo $rented['author_first_name'].' '.$rented['author_last_name']; ?></td>
          <td><?php echo $rented['date_rented']; ?></td>
-         <td><?php echo $rented['due_date']; ?></td>
-         <td><?php echo $rented['days_remaining']; ?></td>
+         <td><?php echo $rented['date_due']; ?></td>
        </tr>
 <?php
 $k++;

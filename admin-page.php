@@ -55,6 +55,10 @@ include('templates/navbar.php');?>
     $AD_student_selected = 'true';
     $AD_student_active = 'active';
     $AD_student_tabpanel = 'active show';
+  elseif( isset( $_SESSION['employee-added']) || isset( $_SESSION['employee-removed'] ) ):
+    $AD_employee_active = 'active';
+    $AD_employee_selected = 'true';
+    $AD_employee_tabpanel = 'active show';
   else:
     $employee_active = 'active';
     $employee_selected = 'true';
@@ -75,9 +79,9 @@ include('templates/navbar.php');?>
   </li>
 
   <li class="nav-item">
-    <a class="nav-link <?php echo $ad_employee_active; ?>"
+    <a class="nav-link <?php echo $AD_employee_active; ?>"
       id="ad-employee-tab" data-toggle="tab" href="#adEmployees" role="tab" aria-controls="adEmployees"
-      aria-selected="<?php echo $ad_employee_selected;?>">
+      aria-selected="<?php echo $AD_employee_selected;?>">
     Add/Drop Employees
     </a>
   </li>
@@ -127,8 +131,37 @@ include('templates/navbar.php');?>
   <div class="tab-pane fade <?php echo $employee_tabpanel; ?>" id="libraryEmployees" role="tabpanel" aria-labelledby="libraryEmployees-tab">
     <?php include('templates/employee_table.php');?>
   </div>
-  <div class="tab-pane fade <?php echo $ad_employee_tabpanel; ?>" id="adEmployees" role="tabpanel" aria-labelledby="adEmployees-tab">
+  <div class="tab-pane fade <?php echo $AD_employee_tabpanel; ?>" id="adEmployees" role="tabpanel" aria-labelledby="adEmployees-tab">
     <?php include('templates/add_drop_employee.php');?>
+    <div class="ad-employee-feedback-wrapper container-fluid">
+      <?php
+
+      if(isset($_SESSION['employee-added']) && $_SESSION['employee-added'] ==='F'):
+        ?>
+        <small class="text-danger">Employee not added, try again.</small>
+      <?php
+
+      elseif( isset( $_SESSION['employee-added']) && $_SESSION['employee-added'] ==='T'):
+        ?>
+        <small class="text-success">Successfully added new employee!</small>
+      <?php
+
+      elseif( isset( $_SESSION['employee-removed']) && $_SESSION['employee-removed'] === 'T' ):
+      ?>
+        <small class="text-success float-right">Successfully removed employee!</small>
+      <?php
+      elseif( isset( $_SESSION['employee-removed']) && $_SESSION['employee-removed'] === 'F' ):
+        ?>
+        <small class="text-danger float-right">employee not removed, Try again!</small>
+    <?php
+      endif;
+      if(isset($_SESSION['employee-added'])):
+        unset($_SESSION['employee-added']);
+      elseif(isset($_SESSION['employee-removed'])):
+        unset($_SESSION['employee-removed']);
+      endif;
+      ?>
+    </div>
   </div>
   <div class="tab-pane fade  <?php echo $AD_book_tabpanel; ?>" id="addDropBooks" role="tabpanel" aria-labelledby="addDropBooks-tab">
     <?php include('templates/add_drop_books.php'); ?>

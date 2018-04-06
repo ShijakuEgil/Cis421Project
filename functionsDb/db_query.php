@@ -9,29 +9,84 @@
 //bring in the connection header.
 require_once("db_connect.php");
 
-function remove_employee($employee_id){
-  return true// stub return
-}
 
-function add_employee($fname, $lname, $salary, $address, $type, $password){
+/*
+functionality Admin Page: remove an employee
+*/
+function remove_employee($employee_id){
+  global $db_db;
+  $query = 'DELETE FROM employee WHERE employeeid = :empid';
+
+  $statement3 = $db_db->prepare($query);
+  $params = array(
+    'empid' => $employee_id
+  );
+  $statement3->execute($params);
+  $statement3->closeCursor();
   return true;
 }
+
+
+/*
+functionality Admin Page: add a new employee
+*/
+function add_employee($fname, $lname, $email, $address, $salary,  $type, $password, $libid){
+  global $db_db;
+  //username needs to be unique
+  $query = 'SELECT email FROM employee
+            WHERE email = :email';
+  $statement = $db_db->prepare($query);
+  $statement->bindValue(':email', $email_address);
+  $statement->execute();
+  $isUnique = ($statement->rowcount() < 1);
+  $statement->closeCursor();
+
+  if($isUnique){// email is unique so the user is added
+    // $password = sha1($email_address . $password);
+    $query = 'INSERT INTO employee (first_name, last_name, email, password, address, type, salary, libraryid)
+              VALUES (:fname, :lname, :email, :password, :address, :type, :salary, :libid)';
+    $statement2 = $db_db->prepare($query);
+
+    $params = array(
+      'fname' =>  $fname,
+      'lname' =>  $lname,
+      'password' => $password,
+      'address' => $address,
+      'email' => $email,
+      'salary' => $salary,
+      'type'  => $type,
+      'libid' => $libid
+    );
+    $statement2->execute($params);
+    $statement2->closeCursor();
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+/*
+functionality Admin Page: remove a current user
+*/
+function remove_student( $student_id ){
+  global $db_db;
+
+  $query = 'DELETE FROM student WHERE studentid = :studentid';
+
+  $statement3 = $db_db->prepare($query);
+  $params = array(
+    'studentid' => $student_id
+  );
+  $statement3->execute($params);
+  $statement3->closeCursor();
+  return true;
+}
+
 /*
 functionality Admin Page: 1 add new user
 */
 function add_new_student($f_name, $l_name, $address, $email_address, $password){
-  // $added_user = true;
-  // $shapassword = sha1($email_address . $password);
-  // global $connection;
-  // // if(unique_email($email_address)) {
-  //     $sql = "INSERT INTO student(first_name, last_name, password, address, email)
-  //         VALUES ({$f_name}, {$l_name}, {$shapassword}, {$address}, {$email_address})";
-  //     if( $connection->query($sql) === TRUE ){
-  //       return true;
-  //     }
-  //     else{return false;}
-  // }
-  // return $added_user;
   global $db_db;
   //username needs to be unique
   $query = 'SELECT email FROM student
@@ -44,8 +99,8 @@ function add_new_student($f_name, $l_name, $address, $email_address, $password){
 
   if($isUnique){// email is unique so the user is added
     // $password = sha1($email_address . $password);
-    $query = 'INSERT INTO student (first_name, last_name,  password, address, email)
-              VALUES (:fname, :lname, :password, :address, :email)';
+    $query = 'INSERT INTO student (first_name, last_name, email, password, address)
+              VALUES (:fname, :lname, :email, :password, :address)';
     $statement2 = $db_db->prepare($query);
 
     $params = array(
@@ -67,17 +122,16 @@ function add_new_student($f_name, $l_name, $address, $email_address, $password){
 /*
 functionality Login Page: 1 Validate Login
 */
-
 function validate_login($email, $password, $type){
   global $db_db;
   if($type == 'admin'){
     // $password = sha1($email . $password);
-    $query = "SELECT email, password FROM student
+    $query = "SELECT email, password, studentid FROM employee
               WHERE  email = :email AND password = :password";
     $statement = $db_db->prepare($query);
     $params = array(
       'email'   =>    $email,
-      'password'  =>  $password,
+      'password'  =>  $password
     );
     $statement->execute($params);
     if($statement->rowCount() > 0){
@@ -91,12 +145,12 @@ function validate_login($email, $password, $type){
   }
   elseif($type == 'student'){
     // $password = sha1($email . $password);
-    $query = "SELECT email, password FROM employee
+    $query = "SELECT email, password FROM student
               WHERE  email = :email AND password = :password";
     $statement = $db_db->prepare($query);
     $params = array(
       'email'   =>    $email,
-      'password'  =>  $password,
+      'password'  =>  $password
     );
     $statement->execute($params);
     if($statement->rowCount() > 0){
@@ -109,81 +163,35 @@ function validate_login($email, $password, $type){
     }
   }
 }
-// global $connection;
-//
-// $usertype = "admin";  //need to update database schema to have this
-// $shapassword = sha1($email . $password);
-// if($usertype == "admin") {
-//   $sql = "SELECT CASE WHEN EXISTS (
-// 	         SELECT *
-// 	         FROM [Employee]
-// 	         WHERE employeeID = {$email}
-// 	         AND password = {$shapassword}
-//          )
-//          THEN CAST(1 AS BIT)	//returns true if user exists and password is valid
-//          ELSE CAST(0 AS BIT) END";	//fail user";
-//
-// } else {
-//
-// $sql = "SELECT CASE WHEN EXISTS (
-//          SELECT *
-//          FROM [Students]
-//          WHERE employeeID = {$email}
-//          AND password = {$shapassword}
-//        )
-//        THEN CAST(1 AS BIT)	//returns true if user exists and password is valid
-//        ELSE CAST(0 AS BIT) END";	//fail user";
-//  }
-// $result = $connection->query($sql);
-// return $result;  //will be true or false.
-// // return true;
 
-function curr_books_rented(){
-  $books_rented = array(// temp array remove when available
-    array(
-      'book_id'=>'123456789',
-      'title'=>'Where oh where is Egil',
-      'author'=>'Mad Max',
-      'date_rented'=>'1/13/15',
-      'due_date'=>'2/13/15',
-      'days_remaining'=>'3'
-    ),
-    array(
-      'book_id'=>'987654321',
-      'title'=>'Sam I Am',
-      'author'=>'Rabih',
-      'date_rented'=>'7/8/15',
-      'due_date'=>'9/8/15',
-      'days_remaining'=>'30'
-    ),
-    array(
-      'book_id'=>'456789963',
-      'title'=>'Where is Summer',
-      'author'=>'Mighty_j',
-      'date_rented'=>'4/4/18',
-      'due_date'=>'5/4/18',
-      'days_remaining'=>'30'
-    ),
+/*
+functionality Student Page: current books rented
+*/
+function curr_books_rented($email){
+  global $db_db;
+
+  $query ='SELECT bookid, title, author_first_name, author_last_name, date_rented, date_due
+          FROM student, books, rentals
+          WHERE student.email = :email
+          AND student.studentid = rentals.studentid
+          AND rentals.bookid = isbn';
+
+  $statement = $db_db->prepare($query);
+  $params = array(
+    'email' => $email
   );
-return $books_rented;   // TODO: return an array with all the table information
+  $statement->execute($params);
+  $result = $statement->fetchAll();
+  $statement->closeCursor();
+  return $result;
 }
+
 /*
 functionality Student Page: 1 Book search
                             2 Search Result
 */
 function search_for_books($value){
-  // $found_name = "Carl the magician";
-  // $found_id = 123456789;
-  // $author = "Michael Scott";
   $found = array();
-  // global $connection;
-  // $sql = "SELECT * FROM Book
-  //         WHERE LIKE %{$book_name}%
-  //         AND LIKE %{$book_id}%
-  //         AND LIKE %{$author}% ";
-  // $result = $connection->query($sql);
-  // //return $result;
-  // return array($found_name, $found_id, $author);
   return $found;
 }
 
@@ -201,77 +209,129 @@ function account_info($studentid){
 functionality Student Page: 4 Rent Books
 */
 function rent_books($book_id, $student_id){
-  return true; //this will return true if the query to rent a book is done successfully
+
+  global $db_db;
+  $query = 'INSERT INTO rentals (studentid, bookid, date_rented, date_due)
+            VALUES (:studentid, :bookid, CURDATE(), CURDATE() + 100)';
+  $statement2 = $db_db->prepare($query);
+
+  $params = array(
+    'studentid' =>  $student_id,
+    'bookid' =>  $book_id
+  );
+  $statement2->execute($params);
+  $statement2->closeCursor();
+  update_rented_qty($book_id, 1);
+  return true;
 }
 
-function remove_student( $student_id ){
-   return true;
+function update_rented_qty($isbn, $qty){
+  global $db_db;
+  $query = 'UPDATE books SET quantity = quantity - :qty
+            WHERE isbn = :isbn';
+  $statement3 = $db_db->prepare($query);
+  $params = array(
+    'isbn' => $isbn,
+    'qty' => $qty
+  );
+  $statement3->execute($params);
+  $statement3->closeCursor();
 }
 
-function unique_email($email_address) {
-  $sql = "SELECT CASE WHEN EXISTS(
-            SELECT * FROM Employee
-          )";
+function update_stocked_qty($isbn, $qty){
+  global $db_db;
+
+  $query = 'UPDATE books SET quantity = quantity + :qty
+            WHERE isbn = :isbn';
+  $statement3 = $db_db->prepare($query);
+  $params = array(
+    'isbn' => $isbn,
+    'qty' => $qty
+  );
+  $statement3->execute($params);
+  $statement3->closeCursor();
 }
 
 /*
 functionality Admin Page: 2 returns
 */
-function returns(){
+function restock_book($isbn, $student_id ){
+  global $db_db;
+
+  $query = 'DELETE FROM rentals WHERE studentid = :studentid AND bookid = :isbn';
+
+  $statement3 = $db_db->prepare($query);
+  $params = array(
+    'isbn' => $isbn,
+    'studentid' => $student_id
+  );
+  $statement3->execute($params);
+  $statement3->closeCursor();
+  update_stocked_qty( $isbn, 1 );
   return true;
 }
+
 /*
 functionality Admin Page: 3 Employee Data tab
 */
 function employee_info(){
-  // global $connection;/
-  // $sql = "SELECT * FROM Employee";
-  // $result = $connection->query($sql);
+  global $db_db;
 
-
- $employee_info = array(//stub array
-    array(
-      'fname' => 'Mark',
-      'lname' => 'Otto',
-      'salary'=> '30,000',
-      'email' => 'email@email.com',
-      'address' =>  '1111 address  Adress, AD 1111',
-      'isStudent' => 'Yes'
-    ),
-    array(
-      'fname' => 'Jacob',
-      'lname' => 'Thornton',
-      'salary'=> '30,000',
-      'email' => 'email@email.com',
-      'address' =>  '1111 address  Adress, AD 1111',
-      'isStudent' => 'Yes'
-    ),
-    array(
-      'fname' => 'Larry',
-      'lname' => 'Who',
-      'salary'=> '30,000',
-      'email' => 'email@email.com',
-      'address' =>  '1111 address  Adress, AD 1111',
-      'isStudent' => 'Yes'
-    ),
-  );
-  return $employee_info;
-  // return $result;// this will be the array with all the table rows
+  $query = 'SELECT first_name, last_name, salary,	email,	address, type
+            FROM employee';
+  $statement = $db_db->prepare($query);
+  $statement->execute();
+  $result = $statement->fetchAll();
+  return $result;
+  $statement->closeCursor();
 }
 
 /*
 functionality Admin Page: 4 add books
 */
-function add_books($book_title, $isbn, $athFName,$athLName, $publisher, $date_published, $qty){
+function add_books($libid, $book_title, $isbn, $athFName,$athLName, $publisher, $qty){
   // TODO: SQl QUERY and functionality goes here
-  return true;
+
+  global $db_db;
+  //username needs to be unique
+  $query = 'SELECT isbn FROM books
+            WHERE isbn = :isbn';
+  $statement = $db_db->prepare($query);
+  $statement->bindValue(':isbn', $isbn);
+  $statement->execute();
+  $isUnique = ($statement->rowcount() < 1);
+  $statement->closeCursor();
+
+  if($isUnique){// email is unique so the user is added
+    // $password = sha1($email_address . $password);
+    $query = 'INSERT INTO books (library_id, isbn, title, author_first_name, author_last_name, publisher, quantity)
+              VALUES (:libid, :isbn, :title, :fname, :lname, :publisher, :qty)';
+    $statement2 = $db_db->prepare($query);
+    $params = array(
+      'libid' => $libid,
+      'isbn'  => $isbn,
+      'title' => $book_title,
+      'fname' =>  $athFName,
+      'lname' =>  $athLName,
+      'publisher' => $publisher,
+      'qty' => $qty
+    );
+    $statement2->execute($params);
+    $statement2->closeCursor();
+    return true;
+  }
+  else{
+    update_stocked_qty($isbn, $qty);
+    return true;
+  }
 }
 
 /*
 functionality Admin Page: 4 remove books
 */
-function remove_books($book_title, $isbn, $qty){
-  // TODO: SQl QUERY and functionality goes here
+function remove_books( $isbn, $qty ){
+
+  update_rented_qty( $isbn, $qty);
   return true;
 }
 
@@ -279,36 +339,14 @@ function remove_books($book_title, $isbn, $qty){
 functionality Admin Page: 5 outstanding rentals
 */
 function outstanding_rentals(){
-  // global $connection;
-  // $currtime = date('Y-m-d H:i:s', strtotime($value['current_date']));
-  //
-  // $sql = "SELECT * FROM Book
-  //         WHERE IN(
-  //         	SELECT * FROM Student
-  //         	WHERE date_due < {$currtime}
-  //       	)";  //need sql table/ERD updates
-  // $result = $connection->query($sql);
 
-  $late_rentals = array(//stub array
-    array(
-      'fname' => 'Mark',
-      'lname' => 'Otto',
-      'book_title' => 'The Book Title',
-      'days_late' =>  '3'
-    ),
-    array(
-      'fname' => 'Jacob',
-      'lname' => 'Thornton',
-      'book_title' => 'The Book Title',
-      'days_late' =>  '12'
-    ),
-    array(
-      'fname' => 'Larry',
-      'lname' => 'Who',
-      'book_title' => 'The Book Title',
-      'days_late' =>  '4'
-    ),
-  );
-  //return $result;
-  return $late_rentals;//array that holds all rows with late rentals
+  global $db_db;
+  $query = 'SELECT first_name, last_name, title, date_due
+            FROM student, books, rentals WHERE student.studentid = rentals.studentid
+            AND books.isbn = rentals.bookid';
+  $statement = $db_db->prepare($query);
+  $statement->execute();
+  $result = $statement->fetchAll();
+  $statement->closeCursor();
+  return $result;
 }

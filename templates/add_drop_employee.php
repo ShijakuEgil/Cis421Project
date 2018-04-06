@@ -15,40 +15,40 @@
       <form method="post" action="validate.php">
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="student-fname">First Name</label>
-            <input type="text" class="form-control" id="student-fname" name="student-fname" placeholder="First Name">
+            <label for="add-employee-fname">First Name</label>
+            <input type="text" class="form-control" id="add-employee-fname" name="add-employee-fname" placeholder="First Name">
           </div>
           <div class="form-group col-md-6">
-            <label for="student-lname">Last Name</label>
-            <input type="text" class="form-control" id="student-lname" name="student-lname" placeholder="Last Name">
+            <label for="add-employee-lname">Last Name</label>
+            <input type="text" class="form-control" id="add-employee-lname" name="add-employee-lname" placeholder="Last Name">
           </div>
         </div>
         <div class="form-row">
          <div class="form-group col-md-6">
-           <label for="student-email">Email</label>
-           <input type="email" class="form-control" id="student-email" name="student-email" placeholder="Email">
+           <label for="add-employee-email">Email</label>
+           <input type="email" class="form-control" id="add-employee-email" name="add-employee-email" placeholder="Email">
          </div>
          <div class="form-group col-md-6">
-           <label for="student-password">Password</label>
-           <input type="password" class="form-control" id="student-password" name=student-password placeholder="Password">
+           <label for="add-employee-password">Password</label>
+           <input type="password" class="form-control" id="add-employee-password" name="add-employee-password" placeholder="Password">
          </div>
        </div>
        <div class="form-group">
-         <label for="student-address">Address</label>
-         <input type="text" class="form-control" id="student-address" name="student-address" placeholder="1234 Main St">
+         <label for="add-employee-address">Address</label>
+         <input type="text" class="form-control" id="add-employee-address" name="add-employee-address" placeholder="1234 Main St">
        </div>
        <div class="form-group">
-         <label for="student-address-2">Address 2</label>
-         <input type="text" class="form-control" id="student-address-2" name="student-address-2" placeholder="Apartment, studio, or floor">
+         <label for="add-empoloyee-address-2">Address 2</label>
+         <input type="text" class="form-control" id="add-empoloyee-address-2" name="add-empoloyee-address-2" placeholder="Apartment, studio, or floor">
        </div>
        <div class="form-row">
          <div class="form-group col-md-6">
-           <label for="student-address-city">City</label>
-           <input type="text" class="form-control" id="student-address-city" name="student-address-city" placeholder="City">
+           <label for="add-employee-city">City</label>
+           <input type="text" class="form-control" id="add-employee-city" name="add-employee-city" placeholder="City">
          </div>
          <div class="form-group col-md-4">
-           <label for="student-address-state">State</label>
-           <select id="student-address-state" name="student-address-state" class="form-control">
+           <label for="add-employee-state">State</label>
+           <select id="add-employee-state" name="add-employee-state" class="form-control">
              <option selected>Choose...</option>
              <option>MI</option>
              <option>or MI</option>
@@ -56,33 +56,38 @@
            </select>
          </div>
          <div class="form-group col-md-2">
-           <label for="student-address-zip">Zip</label>
-           <input type="text" class="form-control" id="student-address-zip" name="student-address-zip" placeholder="Zip Code">
+           <label for="add-employee-zip">Zip</label>
+           <input type="text" class="form-control" id="add-employee-zip" name="add-employee-zip" placeholder="Zip Code">
          </div>
        </div>
        <div class="form-row">
          <div class="form-group col-md-8">
            <label for="add-employee-salary">Salary</label>
-           i
-
+           <input type="number" class="form-control" id="add-employee-salary" name="add-employee-salary" placeholder="Yearly salary">
+         </div>
+         <div class="form-group col-md-4">
+           <label for="add-employee-type">Salary</label>
+           <select class="form-control" id="add-employee-type" name="add-employee-type">
+             <option selected>Pick type of employee...</option>
+             <option>A</option>
+             <option>W</option>
+           </select>
          </div>
        </div>
-        <button type="submit" class="btn btn-primary" name="add-student">Add Student</button>
-      </form>
+      <button type="submit" class="btn btn-primary" name="add-employee">Add Employee</button>
+    </form>
 
     </div>
 
     <div class="col-6 text-center border-left p-5 mt-5">
-      <h1 class="display-3">Remove a Student</h1>
+      <h1 class="display-3">Remove an Employee</h1>
 
       <form method="post" action="validate.php">
         <div class="form-group">
-          <label for="rmv-student-id">Student ID</label>
-          <input type="text" class="form-control" id="rmv-student-id" name="rmv-student-id" placeholder="Student ID">
+          <label for="rmv-employee-id">Employee ID</label>
+          <input type="text" class="form-control" id="rmv-employee-id" name="rmv-employee-id" placeholder="Employee ID">
         </div>
-        <button type="submit" class="btn btn-primary" name="remove-student">Remove Student</button>
+        <button type="submit" class="btn btn-primary" name="remove-employee">Remove an Employee</button>
       </form>
-
     </div>
-
  </article>

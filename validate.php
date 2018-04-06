@@ -20,6 +20,7 @@ session_start();
         $email = $_POST['login-email'];
         $password = $_POST['login-password'];
         $type = 'admin';
+        $_SESSION['user'] = $email;
     if( validate_login( $email, $password , $type) ):
         $_SESSION['login'] = 'T';
         header("Location:admin-page.php");
@@ -29,10 +30,15 @@ session_start();
 
     endif;
 }
+
+
 elseif( isset( $_POST['student'] ) ) {
   //same proccess as above this time for students
   $type  ='student';
-  if( validate_login( $_POST['login-email'], $_POST['login-password'], $type ) ):
+  $email = $_POST['login-email'];
+  $password = $_POST['login-password'];
+  $_SESSION['user'] = $email;
+  if( validate_login( $email, $password, $type ) ):
     $_SESSION['login'] = 'T';
     header("Location:student-page.php");
 
@@ -43,7 +49,7 @@ elseif( isset( $_POST['student'] ) ) {
   endif;
 }
 
-
+// NOTE: adding new or current books
 elseif( isset( $_POST['addBook'] ) ) {
 /*
     Button addBook from admin page is clicked which means the user is trying
@@ -58,12 +64,12 @@ elseif( isset( $_POST['addBook'] ) ) {
     $ath_fname = $_POST['add-ath-fName'];
     $ath_lname = $_POST['add-ath-lname'];
     $publisher  = $_POST['add-publisher'];
-    $date_published = $_POST['add-date-published'];
     $qty = $_POST['add-qty'];
+    $libid = 1;
 
     // NOTE: add_books() returns true at all time so
     //       else executed only when add_books() returns false
-    if( add_books( $book_title, $book_id, $ath_fname, $ath_lname, $publisher, $date_published, $qty ) ) {
+    if( add_books( $libid, $book_title, $book_id, $ath_fname, $ath_lname, $publisher, $qty ) ) {
       $_SESSION['book-added'] = 'T';
     }
     else{
@@ -72,12 +78,13 @@ elseif( isset( $_POST['addBook'] ) ) {
     header('Location:admin-page.php');
     die();
   }
-  elseif(isset($_POST['removeBook'])){
-    $book_title = ''; // $_POST['rmv-book-title'];
-    $book_id ='';     //$_POST['rmv-isbn'];
-    $qty = '';        //$_POST['rmv-qty'];
 
-    if( remove_books( $book_title, $book_id, $qty ) ) {
+  // NOTE: removing current book from library
+  elseif( isset( $_POST['removeBook'] ) ){
+    $book_id = $_POST['rmv-isbn'];
+    $qty = $_POST['rmv-qty'];
+
+    if( remove_books( $book_id, $qty ) ) {
       $_SESSION['book-removed'] = 'T';
     }
     else{
@@ -85,9 +92,11 @@ elseif( isset( $_POST['addBook'] ) ) {
     }
     header( 'Location:admin-page.php');
   }
+
+  //NOTE ISSUE RENTAL VALIDATION FUNCTION
   elseif(isset($_POST['issue-rental'])){
-    $book_id = '';      //$_POST['rentals-isbn'];
-    $student_id = '';   //$POST['rentals-student-id'];
+    $book_id = $_POST['rentals-isbn'];
+    $student_id = $_POST['rentals-student-id'];
 
     if( rent_books( $book_id, $student_id ) ) {
       $_SESSION['book-rented'] = 'T';
@@ -97,11 +106,14 @@ elseif( isset( $_POST['addBook'] ) ) {
     }
     header("Location:admin-page.php");
   }
-  elseif(isset($_POST['restock-book'])){
-    $book_title = '';      //$_POST['restock-book-title'];
-    $book_isbn = '';       //$POST['restock-isbn'];
 
-    if( rent_books( $book_id, $student_id ) ) {
+  // NOTE: RESTOCK A RENTED BOOK
+  elseif(isset($_POST['restock-book'])){
+
+    $student_id = $_POST['restock-student-id'];
+    $book_isbn = $_POST['restock-isbn'];
+
+    if( restock_book( $book_isbn, $student_id ) ) {
       $_SESSION['book-stocked'] = 'T';
     }
     else{
@@ -109,6 +121,7 @@ elseif( isset( $_POST['addBook'] ) ) {
     }
     header("Location:admin-page.php");
   }
+  // NOTE: ADDING A NEW STUDENT
   elseif(isset($_POST['add-student'])){
     $student_fname = $_POST['student-fname'];
     $student_lname = $_POST['student-lname'];
@@ -132,8 +145,10 @@ elseif( isset( $_POST['addBook'] ) ) {
     }
     header("Location:admin-page.php");
   }
+
+  // NOTE: REMOVING A CURRENT STUDENT
   elseif(isset($_POST['remove-student'])){
-    $student_id = '';           //= $_POST['rmv-student-id'];
+    $student_id = $_POST['rmv-student-id'];
 
     if( remove_student( $student_id ) ) {
       $_SESSION['student-removed'] = 'T';
@@ -143,14 +158,43 @@ elseif( isset( $_POST['addBook'] ) ) {
     }
     header("Location:admin-page.php");
   }
-elseif(isset($_POST['Search'])){
-  $search_string = $_Post['searchBar'];
-  $results = search_for_books($search_string);
 
-  if (!empty($results)) {
-    return $results;
+  // NOTE: the form for adding an employee is completed and the submit button is clicked
+  elseif( isset( $_POST['add-employee'] ) ){
+    $fname =    $_POST['add-employee-fname'];
+    $lname =    $_POST['add-employee-lname'];
+    $email =    $_POST['add-employee-email'];
+    $password = $_POST['add-employee-password'];
+    $address =  $_POST['add-employee-address'].' '
+                .$_POST['add-empoloyee-address-2'].' '
+                .$_POST['add-employee-city'].' '
+                .$_POST['add-employee-state'].' '
+                .$_POST['add-employee-zip'];
+
+    $salary =   $_POST['add-employee-salary'];
+    $type =     $_POST['add-employee-type'];
+    $libid=   1;
+    if( add_employee( $fname, $lname, $email, $address, $salary, $type, $password, $libid) ){
+      $_SESSION['employee-added'] = 'T';
+    }
+    else{
+      $_SESSION['employee-added'] = 'F';
+    }
+
+    header('Location:admin-page.php');
   }
-  else{
-    return "No results found";
+
+  /*
+  // NOTE: the form for removing a current employee is completed and the submit button is clicked
+  */
+  elseif( isset( $_POST['remove-employee'] ) ){
+    $employee_id = $_POST['rmv-employee-id'];
+
+    if( remove_employee( $employee_id ) ){
+      $_SESSION['employee-removed'] = 'T';
+    }
+    else{
+      $_SESSION['employee-removed'] = 'F';
+    }
+    header('Location:admin-page.php');
   }
-}

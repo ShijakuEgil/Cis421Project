@@ -8,27 +8,9 @@
   e.g.   $sql = "SELECT * FROM Employee";
          $result = $connection->query($sql);
   */
-
 ?>
-
-
-
 <?php
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "cis421projectdb";
-// $connection = null;
-// $connection = mysqli_connect($servername, $username, $password, $dbname);
-// if($connection->connect_error) {
-//   echo "Error: Unable to connect to mysql database" . PHP_EOL;
-//   die("Connection failed: " . $connection->connect_error);
-// }// else {
-// //  $_SESSION["conn"] = $connection;
-//}
-
-
-$db_dataSourceName = 'mysql:host=localhost;dbname=cis421projectdb';
+$db_dataSourceName = 'mysql:host=localhost;dbname=librarydb';
 $db_username = 'root'; //replace w/ your own
 $db_password = ''; // replace w/ your own
 $db_dbErrorMsg = ""; // Echo this out if your having problems, might give hint as to whats wrong
@@ -46,4 +28,3 @@ catch(PDOException $e){
     echo '<p>PDOEXCEPTION: ' . $db_dbErrorMsg . '</p>';
     exit();
 }
-?>

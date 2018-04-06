@@ -9,10 +9,8 @@
 
   <form method="post" action="validate.php">
     <div class="form-group">
-      <label for="searchBar">Search</label>
-      <input type="search" class="form-control" id="searchBar" aria-describedby="searchFunction"
-      placeholder="Search">
-      <small id="searchFunction" class="form-text text-muted">Enter search here</small>
+      <input type="text" class="form-control" id="searchBar" aria-describedby="searchFunction"
+      placeholder="Search for books in here">
     </div>
     <button type="submit" name="Search" id="Search" class="btn btn-primary">Search</button>
   </form>

@@ -35,12 +35,12 @@
 
         <div class="form-row" >
           <div class="form-group col-md-6">
-            <label for="book-title-input">Book Title</label>
-            <input type="text" class="form-control" id="restock-book-title" name="" placeholder="Book Title">
+            <label for="book-title-input">Student ID</label>
+            <input type="text" class="form-control" id="restock-student-id" name="restock-student-id" placeholder="Student ID">
           </div>
           <div class="form-group col-md-6">
             <label for="isbn-input">ISBN</label>
-            <input type="text" class="form-control" id="restock-isbn" placeholder="ISBN">
+            <input type="text" class="form-control" id="restock-isbn" name="restock-isbn" placeholder="ISBN">
           </div>
         </div>
         <button type="submit" class="btn btn-primary" name="restock-book">Restock Book</button>

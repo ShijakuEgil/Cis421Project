@@ -23,7 +23,6 @@ jQuery(document).ready(function($){
                 "<th scope="col">Author</th>"+
                 "<th scope="col">Publisher</th>"+
               "</tr>"
-
             "</thead>"
             "<tbody>"
           "</tbody>"

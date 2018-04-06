@@ -37,7 +37,7 @@ foreach($employee_info as $employee):?>
         <td><?php echo $employee['salary']; ?></td>
         <td><?php echo $employee['email']; ?></td>
         <td><?php echo $employee['address']; ?></td>
-        <td><?php echo $employee['employee_type']; ?></td>
+        <td><?php echo $employee['type']; ?></td>
       </tr>
 <?php
 $k++;
